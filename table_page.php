@@ -1,9 +1,29 @@
 <?php
 require_once 'api_funcs.php';
-$filter = [
-    "date_from" => "2025-01-01 00:00:00",
-       "date_to" => "2025-05-31 23:59:59",];
-$statuses = getstatuses($filter);
+
+
+$defaultDateTo = $_GET['date_from'] ?? date('Y-m-d');
+$defaultDateFrom = $_GET['date_to'] ??date('Y-m-d',strtotime('- 3 days'));
+
+if ($defaultDateFrom < $defaultDateTo){
+
+    $filter = [
+        "date_from" => $defaultDateFrom,
+           "date_to" => $defaultDateTo];
+
+    $statuses = getstatuses($filter);
+}
+else
+{
+    $statuses = [];
+//    TEST STATUSES
+//    $statuses = [
+//        ['id' => 123, 'email' => 'test@test.com', 'status' => 'oke', 'ftd' => ok],
+//        ['id' => 4523, 'email' => 'test@test.com', 'status' => 'oke', 'ftd' => true],
+//        ['id' => 5, 'email' => 'test@test.com', 'status' => 'okeoke', 'ftd' => false]
+//    ];
+}
+
 
 ?>
 
@@ -18,17 +38,37 @@ $statuses = getstatuses($filter);
 
 </head>
 <body>
-    <div class="container">
-        <div style="background: aquamarine">
-            <nav >
-                <a style="margin: 15px" href="form_page.php" >Main page(Form)</a>
-                <a style="margin: 15px" href="table_page.php" >Second page(Table)</a>
-            </nav>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+            <a class="nav-item nav-link" href="form_page.php">Main page(Form)</a>
+            <a class="nav-item nav-link" href="table_page.php">Second page(Table)</a>
         </div>
+    </div>
+</nav>
 
-        <div style="margin: 100px">
 
-            <p class="mt-4">Класс <code>.table-bordered</code> Bootstrap </p>
+<div class="container">
+
+    <div class="container mt-5">
+        <form action="table_page.php" method="GET" >
+            <div data-mdb-input-init class="form-outline mb-4">
+                <input type="date" name="date_from" id="date_from" class="form-control" />
+                <label class="form-date_from" for="date_from">Date from</label>
+            </div>
+
+            <div data-mdb-input-init class="form-outline mb-4">
+                <input type="date" id="date_to" name="date_to" class="form-control" />
+                <label class="form-date_from" for="date_to">Date To</label>
+            </div>
+
+            <button data-mdb-ripple-init type="submit" class="btn btn-primary btn-block">пошук</button>
+        </form>
+    </div>
+
+        <div class="container mt-5" >
+
             <table class="table table-bordered">
                 <thead>
                 <tr>

@@ -57,8 +57,13 @@ function getstatuses($filter)
 
     $decoding = json_decode($response, true);
 
-
-    return $decoding['data'];
+    if (isset($decoding['data'])){
+        return $decoding['data'];
+    }
+    else
+    {
+        return [];
+    }
 
 
 
